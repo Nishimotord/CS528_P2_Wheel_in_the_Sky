@@ -14,15 +14,27 @@ public class StarfieldGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        distanceMultiplier = 5.0f;
+        drawStars(distanceMultiplier);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void drawStars(float scale)
+    {
+        pSys.Clear();
         starObject = new Star[200000];
         Star temp;
-        distanceMultiplier = 10.0f;
         Stars starsInJson = JsonUtility.FromJson<Stars>(jsonFile.text);
         hipToIdPairs = new int[200000];
         Debug.Log(hipToIdPairs.Length);
-        foreach(Star star in starsInJson.stars)
+        foreach (Star star in starsInJson.stars)
         {
-            if(star.hip != 0)
+            if (star.hip != 0)
             {
                 hipToIdPairs[star.hip] = star.id;
             }
@@ -31,27 +43,21 @@ public class StarfieldGenerator : MonoBehaviour
             temp.hip = star.hip;
             temp.proper = star.proper;
             temp.mag = star.mag;
-            temp.x = star.x * distanceMultiplier;
-            temp.y = star.y * distanceMultiplier;
-            temp.z = star.z * distanceMultiplier;
+            temp.x = star.x * scale;
+            temp.y = star.y * scale;
+            temp.z = star.z * scale;
             starObject[star.id] = temp;
             p = new ParticleSystem.EmitParams();
-            p.position = new Vector3(star.x * distanceMultiplier, star.y * distanceMultiplier, star.z * distanceMultiplier);
+            p.position = new Vector3(star.x * scale, star.y * scale, star.z * scale);
             p.startLifetime = 100000;
             p.velocity = Vector3.zero;
             p.startSize = .01f * star.mag * distanceMultiplier;
             p.startColor = Color.white;
-            if(star.id == 0)
+            if (star.id == 0)
             {
                 p.startColor = Color.yellow;
             }
             pSys.Emit(p, 1);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

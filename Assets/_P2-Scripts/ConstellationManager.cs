@@ -17,11 +17,6 @@ public class ConstellationManager : MonoBehaviour
     void Start()
     {
     }
-    private void LateUpdate()
-    {
-        hipToID = GameObject.Find("Starfield-Manager").GetComponent<StarfieldGenerator>().hipToIdPairs;
-        data = GameObject.Find("Starfield-Manager").GetComponent<StarfieldGenerator>().starObject;
-    }
 
     // Update is called once per frame
     void Update()
@@ -30,6 +25,8 @@ public class ConstellationManager : MonoBehaviour
 
     public void loadConstellation(int selection)
     {
+        hipToID = GameObject.Find("Starfield-Manager").GetComponent<StarfieldGenerator>().hipToIdPairs;
+        data = GameObject.Find("Starfield-Manager").GetComponent<StarfieldGenerator>().starObject;
         charSeparators = new char[] { ' ' };
         destroyLines();
         Debug.Log("Loading Sky Culture: " + fileIndex[selection].name);
