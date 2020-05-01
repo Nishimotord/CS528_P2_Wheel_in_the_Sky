@@ -26,6 +26,7 @@ public class Navball : MonoBehaviour
     public void setCourse(int id)
     {
         distMult = GameObject.Find("Starfield-Manager").GetComponent<StarfieldGenerator>().scaling;
+        GameObject.Find("Starfield-Manager").GetComponent<StarfieldGenerator>().courseSelection = id;
         text = GameObject.Find("Distance").GetComponent<UnityEngine.UI.Text>();
         loc = GameObject.Find("Starfield-Manager").GetComponent<StarfieldGenerator>().starObject[id];
         pos = new Vector3(loc.x, loc.y, loc.z);
