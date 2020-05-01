@@ -10,12 +10,17 @@ public class StarfieldGenerator : MonoBehaviour
     public float distanceMultiplier;
     public Star[] starObject;
     public int[] hipToIdPairs;
+    public float scaling;
+    public int courseSelection;
+    public int constellationSelection;
 
     // Start is called before the first frame update
     void Start()
     {
         distanceMultiplier = 5.0f;
         drawStars(distanceMultiplier);
+        courseSelection = 0;
+        constellationSelection = 5;
     }
 
     // Update is called once per frame
@@ -26,6 +31,7 @@ public class StarfieldGenerator : MonoBehaviour
 
     public void drawStars(float scale)
     {
+        scaling = scale;
         pSys.Clear();
         starObject = new Star[200000];
         Star temp;
@@ -51,7 +57,7 @@ public class StarfieldGenerator : MonoBehaviour
             p.position = new Vector3(star.x * scale, star.y * scale, star.z * scale);
             p.startLifetime = 100000;
             p.velocity = Vector3.zero;
-            p.startSize = .01f * star.mag * distanceMultiplier;
+            p.startSize = .01f * star.mag;
             p.startColor = Color.white;
             if (star.id == 0)
             {
@@ -59,5 +65,7 @@ public class StarfieldGenerator : MonoBehaviour
             }
             pSys.Emit(p, 1);
         }
+        GameObject.Find("Constellation-Manager").GetComponent<ConstellationManager>().loadConstellation(constellationSelection);
+        GameObject.Find("NavBall").GetComponent<Navball>().setCourse(courseSelection);
     }
 }

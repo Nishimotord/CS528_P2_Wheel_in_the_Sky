@@ -12,13 +12,12 @@ public class Navball : MonoBehaviour
 
     private void Start()
     {
-        setCourse(0);
-    }
 
+    }
+ 
     // Update is called once per frame
-    void Update()
+    private void LateUpdate()
     {
-        distMult = GameObject.Find("Starfield-Manager").GetComponent<StarfieldGenerator>().distanceMultiplier;
         this.transform.LookAt(pos);
         text.text = (Vector3.Distance(this.transform.position, pos)/distMult).ToString("F2") + " Parsecs to " + destination;
 
@@ -26,16 +25,17 @@ public class Navball : MonoBehaviour
 
     public void setCourse(int id)
     {
+        distMult = GameObject.Find("Starfield-Manager").GetComponent<StarfieldGenerator>().scaling;
         text = GameObject.Find("Distance").GetComponent<UnityEngine.UI.Text>();
         loc = GameObject.Find("Starfield-Manager").GetComponent<StarfieldGenerator>().starObject[id];
         pos = new Vector3(loc.x, loc.y, loc.z);
         destination = loc.proper;
-        distMult = GameObject.Find("Starfield-Manager").GetComponent<StarfieldGenerator>().distanceMultiplier;
     }
 
     public void warp()
     {
-        GameObject.Find("CAVE2-PlayerController").transform.position = pos;
+        GameObject.Find("CAVE2-PlayerController").transform.position = new Vector3(pos.x, pos.y - 1, pos.z - 2);
+        GameObject.Find("CAVE2-PlayerController").transform.eulerAngles = Vector3.zero;
     }
 
     /*

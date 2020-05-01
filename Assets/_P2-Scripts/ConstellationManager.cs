@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ConstellationManager : MonoBehaviour
 {
+    public StarfieldGenerator starfieldGenerator;
     public TextAsset[] fileIndex;
     private Star[] data;
     private int[] hipToID;
@@ -25,8 +26,10 @@ public class ConstellationManager : MonoBehaviour
 
     public void loadConstellation(int selection)
     {
-        hipToID = GameObject.Find("Starfield-Manager").GetComponent<StarfieldGenerator>().hipToIdPairs;
-        data = GameObject.Find("Starfield-Manager").GetComponent<StarfieldGenerator>().starObject;
+        starfieldGenerator = GameObject.Find("Starfield-Manager").GetComponent<StarfieldGenerator>();
+        starfieldGenerator.constellationSelection = selection;
+        hipToID = starfieldGenerator.hipToIdPairs;
+        data = starfieldGenerator.starObject;
         charSeparators = new char[] { ' ' };
         destroyLines();
         Debug.Log("Loading Sky Culture: " + fileIndex[selection].name);
